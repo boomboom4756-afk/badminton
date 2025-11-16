@@ -1,0 +1,676 @@
+<!DOCTYPE html>
+<html lang="th">
+
+<head>
+    <meta charset="UTF-8" />
+    <title>สรุปแบดมินตัน (เวอร์ชันมือถือ)</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <style>
+         :root {
+            --bg: #020617;
+            --bg-card: #020617;
+            --accent: #22c55e;
+            --accent-soft: rgba(34, 197, 94, 0.12);
+            --text-main: #e5e7eb;
+            --text-muted: #9ca3af;
+            --border-soft: #1f2937;
+            --border-strong: #374151;
+            --shadow-soft: 0 14px 30px rgba(0, 0, 0, 0.65);
+            --radius-lg: 1.25rem;
+        }
+        
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
+        body {
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+            background: radial-gradient(circle at top, #020617 0, #000 60%);
+            color: var(--text-main);
+            min-height: 100vh;
+            padding: 1rem 0.75rem 2.5rem;
+            display: flex;
+            justify-content: center;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 700px;
+        }
+        
+        .hero {
+            text-align: center;
+            margin-bottom: 1.25rem;
+        }
+        
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            padding: 0.25rem 0.7rem;
+            border-radius: 999px;
+            font-size: 0.7rem;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            background: rgba(15, 118, 110, 0.2);
+            border: 1px solid rgba(45, 212, 191, 0.5);
+            color: #a5f3fc;
+            margin-bottom: 0.5rem;
+        }
+        
+        .badge-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 999px;
+            background: #22c55e;
+            box-shadow: 0 0 8px rgba(34, 197, 94, 0.8);
+        }
+        
+        h1 {
+            font-size: clamp(1.4rem, 5vw, 1.8rem);
+            margin-bottom: 0.25rem;
+            line-height: 1.4;
+        }
+        
+        .hero-subtitle {
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            max-width: 440px;
+            margin: 0.25rem auto 0.5rem;
+        }
+        
+        .hero-highlight {
+            font-weight: 600;
+            color: #bbf7d0;
+        }
+        
+        .layout {
+            display: flex;
+            flex-direction: column;
+            gap: 0.85rem;
+        }
+        
+        .sidebar {
+            background: rgba(15, 23, 42, 0.98);
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--border-strong);
+            box-shadow: var(--shadow-soft);
+            padding: 0.8rem 0.9rem;
+            margin-bottom: 0.6rem;
+        }
+        
+        .sidebar h2 {
+            font-size: 0.95rem;
+            margin-bottom: 0.35rem;
+            display: flex;
+            align-items: center;
+            gap: 0.35rem;
+        }
+        
+        .sidebar h2 span {
+            display: inline-flex;
+            width: 22px;
+            height: 22px;
+            align-items: center;
+            justify-content: center;
+            border-radius: 999px;
+            background: rgba(34, 197, 94, 0.1);
+            border: 1px solid rgba(34, 197, 94, 0.5);
+            font-size: 0.85rem;
+        }
+        
+        .sidebar p {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            margin-bottom: 0.4rem;
+        }
+        
+        .toc {
+            list-style: none;
+            font-size: 0.85rem;
+            margin-bottom: 0.4rem;
+            column-count: 2;
+            column-gap: 0.75rem;
+        }
+        
+        @media (max-width: 480px) {
+            .toc {
+                column-count: 1;
+            }
+        }
+        
+        .toc li {
+            margin: 0.08rem 0;
+            break-inside: avoid;
+        }
+        
+        .toc a {
+            color: var(--text-muted);
+            text-decoration: none;
+            display: block;
+            padding: 0.25rem 0.4rem;
+            border-radius: 0.7rem;
+            transition: background 0.15s ease, color 0.15s ease;
+        }
+        
+        .toc a:active {
+            background: rgba(148, 163, 184, 0.25);
+            color: #e5e7eb;
+        }
+        
+        .sidebar-tip {
+            margin-top: 0.35rem;
+            padding: 0.5rem 0.6rem;
+            border-radius: 0.9rem;
+            background: rgba(15, 118, 110, 0.18);
+            border: 1px dashed rgba(34, 197, 94, 0.6);
+            font-size: 0.75rem;
+            color: #a5f3fc;
+        }
+        
+        .sidebar-tip strong {
+            display: block;
+            margin-bottom: 0.1rem;
+        }
+        
+        .content {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+        
+        .card {
+            background: rgba(15, 23, 42, 0.98);
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--border-soft);
+            box-shadow: var(--shadow-soft);
+            overflow: hidden;
+        }
+        
+        .card-header {
+            padding: 0.75rem 0.9rem;
+            border-bottom: 1px solid var(--border-soft);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: radial-gradient(circle at top left, rgba(34, 197, 94, 0.12), transparent 55%);
+            cursor: pointer;
+            touch-action: manipulation;
+        }
+        
+        .card-title {
+            font-size: 0.95rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .card-title-index {
+            width: 24px;
+            height: 24px;
+            border-radius: 999px;
+            border: 1px solid rgba(148, 163, 184, 0.6);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.75rem;
+            color: #e5e7eb;
+            background: #020617;
+            flex-shrink: 0;
+        }
+        
+        .card-toggle {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            display: inline-flex;
+            align-items: center;
+            gap: 0.25rem;
+            flex-shrink: 0;
+        }
+        
+        .card-toggle-icon {
+            display: inline-block;
+            transition: transform 0.18s ease;
+        }
+        
+        .card[data-open="false"] .card-toggle-icon {
+            transform: rotate(-90deg);
+        }
+        
+        .card-body {
+            padding: 0.75rem 0.9rem 0.85rem;
+            font-size: 0.85rem;
+            line-height: 1.6;
+            color: var(--text-main);
+            background: radial-gradient(circle at bottom right, rgba(15, 118, 110, 0.16), transparent 55%);
+            display: none;
+        }
+        
+        .card[data-open="true"] .card-body {
+            display: block;
+        }
+        
+        .card-body p {
+            margin-bottom: 0.35rem;
+        }
+        
+        .card-body ul {
+            padding-left: 1.05rem;
+            margin: 0.1rem 0 0.4rem;
+        }
+        
+        .card-body li {
+            margin: 0.1rem 0;
+        }
+        
+        .chip-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.25rem;
+            margin-top: 0.3rem;
+            font-size: 0.7rem;
+        }
+        
+        .chip {
+            padding: 0.15rem 0.5rem;
+            border-radius: 999px;
+            border: 1px solid rgba(148, 163, 184, 0.6);
+            color: var(--text-muted);
+        }
+        
+        .highlight {
+            color: #bbf7d0;
+            font-weight: 500;
+        }
+        
+        .accent-box {
+            margin-top: 0.3rem;
+            padding: 0.4rem 0.55rem;
+            border-radius: 0.75rem;
+            background: var(--accent-soft);
+            border: 1px solid rgba(34, 197, 94, 0.6);
+            font-size: 0.78rem;
+            color: #bbf7d0;
+        }
+        
+        .footer-note {
+            text-align: center;
+            margin-top: 1.25rem;
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+        
+        .footer-note span {
+            color: var(--accent);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <header class="hero">
+            <div class="badge">
+                <span class="badge-dot"></span> สรุปแบดมินตันมือถือ
+            </div>
+            <h1>สรุปกติกาแบดมินตัน</h1>
+            <p class="hero-subtitle">
+                รวมเนื้อหาที่ออกบ่อยในแบบฝึกหัดและข้อสอบ
+                <span class="hero-highlight">เลื่อนอ่านสบาย ๆ ในมือถือ</span>
+            </p>
+        </header>
+
+        <main class="layout">
+            <!-- Sidebar -->
+            <aside class="sidebar">
+                <h2><span>🏸</span>สารบัญสรุป</h2>
+                <p>แตะชื่อหัวข้อเพื่อเลื่อนลงไปอ่านได้เลย</p>
+                <ul class="toc">
+                    <li><a href="#sec-1">1. ประวัติ & รายการสำคัญ</a></li>
+                    <li><a href="#sec-2">2. ขนาดสนาม & พื้นที่ส่งลูก</a></li>
+                    <li><a href="#sec-3">3. ระบบการนับคะแนน</a></li>
+                    <li><a href="#sec-4">4. กติกาการส่งลูก</a></li>
+                    <li><a href="#sec-5">5. ประเภทการตีลูก</a></li>
+                    <li><a href="#sec-6">6. ลูกเสีย & เล่นใหม่</a></li>
+                    <li><a href="#sec-7">7. การจับไม้</a></li>
+                    <li><a href="#sec-8">8. มารยาท & ชุดแข่ง</a></li>
+                    <li><a href="#sec-9">9. สมรรถภาพ & จิตใจ</a></li>
+                    <li><a href="#sec-10">10. เกร็ดออกสอบบ่อย</a></li>
+                </ul>
+                <div class="sidebar-tip">
+                    <strong>ท่องสั้น ๆ:</strong> เดี่ยว 17x44, คู่ 20x44, คะแนนคู่ขวา–คี่ซ้าย
+                </div>
+            </aside>
+
+            <!-- Content -->
+            <section class="content">
+
+                <!-- 1 -->
+                <article class="card" id="sec-1" data-open="true">
+                    <div class="card-header">
+                        <div class="card-title">
+                            <span class="card-title-index">1</span> ประวัติ & รายการแข่งขันสำคัญ
+                        </div>
+                        <div class="card-toggle">
+                            แตะเพื่อดู
+                            <span class="card-toggle-icon">▼</span>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <p>🟢 <span class="highlight">กำเนิด</span></p>
+                        <ul>
+                            <li>ต้นกำเนิดจากเกมที่เมือง <strong>ปูนา (Poona)</strong> ประเทศอินเดีย</li>
+                        </ul>
+                        <p>🟢 <span class="highlight">ที่มาของชื่อ Badminton</span></p>
+                        <ul>
+                            <li>มาจากคฤหาสน์ <strong>Badminton House</strong> ของดยุกในอังกฤษ</li>
+                        </ul>
+                        <p>🟢 <span class="highlight">รายการสำคัญ</span></p>
+                        <ul>
+                            <li><strong>Thomas Cup</strong> – ถ้วยชิงชนะเลิศนานาชาติ <strong>ทีมชาย</strong></li>
+                            <li><strong>Uber Cup</strong> – ถ้วยชิงชนะเลิศนานาชาติ <strong>ทีมหญิง</strong></li>
+                            <li><strong>All England Championships</strong> – การแข่งขันเก่าแก่และมีชื่อเสียง</li>
+                        </ul>
+                        <div class="chip-row">
+                            <div class="chip">Poona = เมืองกำเนิด</div>
+                            <div class="chip">Thomas = ทีมชาย</div>
+                            <div class="chip">Uber = ทีมหญิง</div>
+                            <div class="chip">All England = เก่าแก่</div>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- 2 -->
+                <article class="card" id="sec-2" data-open="false">
+                    <div class="card-header">
+                        <div class="card-title">
+                            <span class="card-title-index">2</span> ขนาดสนาม & พื้นที่ส่งลูก
+                        </div>
+                        <div class="card-toggle">
+                            แตะเพื่อดู
+                            <span class="card-toggle-icon">▼</span>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <p>🟢 <span class="highlight">ขนาดสนาม (ฟุต)</span></p>
+                        <ul>
+                            <li><strong>เดี่ยว</strong> : 17 x 44 ฟุต</li>
+                            <li><strong>คู่</strong> : 20 x 44 ฟุต</li>
+                        </ul>
+                        <div class="accent-box">
+                            จำให้ขึ้นใจ: <strong>เดี่ยว 17x44 คู่ 20x44</strong><br/> ยาวเท่ากัน ต่างกันที่ “กว้าง”
+                        </div>
+                        <p>🟢 <span class="highlight">พื้นที่ส่งลูก</span></p>
+                        <ul>
+                            <li><strong>เดี่ยว</strong> – ยาวและแคบ</li>
+                            <li><strong>คู่</strong> – สั้นและกว้าง</li>
+                        </ul>
+                    </div>
+                </article>
+
+                <!-- 3 -->
+                <article class="card" id="sec-3" data-open="false">
+                    <div class="card-header">
+                        <div class="card-title">
+                            <span class="card-title-index">3</span> ระบบการนับคะแนน (แนวเก่า)
+                        </div>
+                        <div class="card-toggle">
+                            แตะเพื่อดู
+                            <span class="card-toggle-icon">▼</span>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <p>🟢 <span class="highlight">แต้มต่อเกม (โดยทั่วไปในข้อสอบ)</span></p>
+                        <ul>
+                            <li><strong>ชายเดี่ยว / ชายคู่ / คู่ผสม</strong> – ประมาณ <strong>15 แต้มต่อเกม</strong> (บางโจทย์อาจให้เลือก “15 หรือ 21 ตามตกลง”)</li>
+                            <li><strong>หญิงเดี่ยว</strong> – ประมาณ <strong>11 แต้มต่อเกม</strong></li>
+                            <li><strong>หญิงคู่</strong> – ประมาณ <strong>15 แต้มต่อเกม</strong> หรือ 15/21 ตามโจทย์</li>
+                        </ul>
+                        <p>🟢 <span class="highlight">การต่อแต้ม 13–13 และ 14–14</span></p>
+                        <ul>
+                            <li>13–13 → ต่อเพิ่ม 5 แต้ม (ไปถึง 18)</li>
+                            <li>14–14 → ต่อเพิ่ม 3 แต้ม (ไปถึง 17)</li>
+                        </ul>
+                        <p>🟢 <span class="highlight">แต้มสูงแล้วเท่า (19–19, 20–20)</span></p>
+                        <ul>
+                            <li>ต้องชนะโดยมีแต้ม <strong>มากกว่าคู่ต่อสู้ 2 แต้ม</strong></li>
+                        </ul>
+                        <p>🟢 <span class="highlight">จบเกม / จบแมตช์</span></p>
+                        <ul>
+                            <li>เกมจบเมื่อถึงแต้มที่กำหนด (11 / 15 / 21)</li>
+                            <li>ส่วนใหญ่ใช้ระบบชนะ <strong>2 ใน 3 เกม</strong></li>
+                        </ul>
+                    </div>
+                </article>
+
+                <!-- 4 -->
+                <article class="card" id="sec-4" data-open="false">
+                    <div class="card-header">
+                        <div class="card-title">
+                            <span class="card-title-index">4</span> กติกาการส่งลูก
+                        </div>
+                        <div class="card-toggle">
+                            แตะเพื่อดู
+                            <span class="card-toggle-icon">▼</span>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <p>🟢 <span class="highlight">ท่าทางตอนส่ง</span></p>
+                        <ul>
+                            <li>ลูกอยู่ <strong>ต่ำกว่าเอว</strong> ตอนไม้สัมผัสลูก</li>
+                            <li><strong>หัวไม้ต่ำกว่ามือที่จับ</strong></li>
+                            <li>เท้าทั้งสองข้างแตะพื้น ไม่กระโดดขณะตี</li>
+                            <li>ต้องตีให้ลูกลอยข้ามตาข่าย</li>
+                        </ul>
+                        <p>🟢 <span class="highlight">ส่งจากข้างไหน (เดี่ยว)</span></p>
+                        <div class="accent-box">
+                            สูตรจำ: <strong>คะแนนคู่ ขวา – คะแนนคี่ ซ้าย</strong>
+                        </div>
+                        <p>🟢 <span class="highlight">สิทธิ์ส่ง</span></p>
+                        <ul>
+                            <li>ได้คะแนน → เปลี่ยนคอร์ดแล้วส่งต่อ</li>
+                            <li>เสียคะแนน → หมดสิทธิ์ส่ง ฝ่ายตรงข้ามได้ส่ง</li>
+                        </ul>
+                    </div>
+                </article>
+
+                <!-- 5 -->
+                <article class="card" id="sec-5" data-open="false">
+                    <div class="card-header">
+                        <div class="card-title">
+                            <span class="card-title-index">5</span> ประเภทการตีลูก
+                        </div>
+                        <div class="card-toggle">
+                            แตะเพื่อดู
+                            <span class="card-toggle-icon">▼</span>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <p>🟢 <span class="highlight">ลูกตบ (Smash)</span></p>
+                        <ul>
+                            <li>พุ่งลงพื้นเร็วแรง ใช้โจมตี</li>
+                            <li>ใช้แรงจากไหล่ + แขน + ข้อมือ</li>
+                        </ul>
+                        <p>🟢 <span class="highlight">ลูกหยอด (Drop)</span></p>
+                        <ul>
+                            <li>เฉียดตาข่ายตกใกล้หน้าเน็ต</li>
+                            <li>ใช้หลอก ดึงคู่ต่อสู้ออกหน้า</li>
+                        </ul>
+                        <p>🟢 <span class="highlight">ลูกดาด (Drive)</span></p>
+                        <ul>
+                            <li>พุ่งแนวราบเร็ว ๆ ระดับกลางคอร์ด</li>
+                        </ul>
+                        <p>🟢 <span class="highlight">ลูกโยนโด่งหลัง (Clear)</span></p>
+                        <ul>
+                            <li>โด่งยาวไปตกใกล้เส้นหลังฝ่ายตรงข้าม</li>
+                        </ul>
+                    </div>
+                </article>
+
+                <!-- 6 -->
+                <article class="card" id="sec-6" data-open="false">
+                    <div class="card-header">
+                        <div class="card-title">
+                            <span class="card-title-index">6</span> ลูกเสีย & เล่นใหม่
+                        </div>
+                        <div class="card-toggle">
+                            แตะเพื่อดู
+                            <span class="card-toggle-icon">▼</span>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <p>🟢 <span class="highlight">ลูกเสีย (Fault)</span></p>
+                        <ul>
+                            <li>ส่งลูกผิดกติกา</li>
+                            <li>ลูกไม่ข้าม/ออกนอกเส้น</li>
+                            <li>ลูกติดตาข่ายตกแดนตัวเอง</li>
+                        </ul>
+                        <p>🟢 <span class="highlight">เล่นใหม่ (Let)</span></p>
+                        <ul>
+                            <li>มีลูกจากสนามอื่นเข้ามา</li>
+                            <li>ผู้เล่น/กรรมการยังไม่พร้อม</li>
+                        </ul>
+                    </div>
+                </article>
+
+                <!-- 7 -->
+                <article class="card" id="sec-7" data-open="false">
+                    <div class="card-header">
+                        <div class="card-title">
+                            <span class="card-title-index">7</span> การจับไม้แร็กเกต
+                        </div>
+                        <div class="card-toggle">
+                            แตะเพื่อดู
+                            <span class="card-toggle-icon">▼</span>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <p>🟢 <span class="highlight">การจับแบบใช้ได้ทั้งหน้ามือ–หลังมือ</span></p>
+                        <ul>
+                            <li>จับแบบจับมือคน (V-shape / Forehand grip)</li>
+                            <li>นิ้วโป้ง–นิ้วชี้เป็นรูปตัว V บนด้ามไม้</li>
+                        </ul>
+                    </div>
+                </article>
+
+                <!-- 8 -->
+                <article class="card" id="sec-8" data-open="false">
+                    <div class="card-header">
+                        <div class="card-title">
+                            <span class="card-title-index">8</span> มารยาท & ชุดแข่ง
+                        </div>
+                        <div class="card-toggle">
+                            แตะเพื่อดู
+                            <span class="card-toggle-icon">▼</span>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <p>🟢 <span class="highlight">ผู้เล่น</span></p>
+                        <ul>
+                            <li>ควบคุมอารมณ์ ไม่ทุบไม้ ไม่ด่ากรรมการ</li>
+                            <li>เคารพคู่ต่อสู้</li>
+                            <li>ชุดแข่งขัน – แบบดั้งเดิมนิยม <strong>สีขาว</strong></li>
+                        </ul>
+                        <p>🟢 <span class="highlight">ผู้ชม</span></p>
+                        <ul>
+                            <li>นั่งชมโดยสงบ</li>
+                            <li>เชียร์เมื่อลูกตายแล้ว ไม่กวนจังหวะการเล่น</li>
+                        </ul>
+                    </div>
+                </article>
+
+                <!-- 9 -->
+                <article class="card" id="sec-9" data-open="false">
+                    <div class="card-header">
+                        <div class="card-title">
+                            <span class="card-title-index">9</span> สมรรถภาพ & คุณค่าทางจิตใจ
+                        </div>
+                        <div class="card-toggle">
+                            แตะเพื่อดู
+                            <span class="card-toggle-icon">▼</span>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <p>🟢 <span class="highlight">สมรรถภาพที่ดี</span></p>
+                        <ul>
+                            <li>ความทนทาน</li>
+                            <li>ความคล่องแคล่วว่องไว</li>
+                            <li>การทรงตัว</li>
+                            <li>ความอ่อนตัว</li>
+                        </ul>
+                        <p>🟢 <span class="highlight">ด้านจิตใจ</span></p>
+                        <ul>
+                            <li>มีวินัย รับผิดชอบ</li>
+                            <li>รู้แพ้ รู้ชนะ รู้อภัย</li>
+                            <li>ได้มิตรภาพ</li>
+                        </ul>
+                    </div>
+                </article>
+
+                <!-- 10 -->
+                <article class="card" id="sec-10" data-open="false">
+                    <div class="card-header">
+                        <div class="card-title">
+                            <span class="card-title-index">10</span> เกร็ดออกสอบบ่อย
+                        </div>
+                        <div class="card-toggle">
+                            แตะเพื่อดู
+                            <span class="card-toggle-icon">▼</span>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <ul>
+                            <li>ลูกขนไก่โดยมาตรฐานใช้ราว ๆ <strong>16 ขน</strong></li>
+                            <li>ก่อนส่งลูกควร <strong>ขานคะแนน</strong> ทุกครั้งในเกมทางการ</li>
+                            <li>ผู้ชนะการเสี่ยงเลือกได้ว่าจะ
+                                <ul>
+                                    <li>ส่ง/รับลูกก่อน หรือ</li>
+                                    <li>เลือกแดนก่อน</li>
+                                </ul>
+                            </li>
+                        </ul>
+                        <div class="accent-box">
+                            ใช้หน้านี้เป็นโพยในมือถือได้เลย — เลื่อนอ่านทีละการ์ด ก่อนทำแบบฝึกหัดแบดมินตัน 😊
+                        </div>
+                    </div>
+                </article>
+
+            </section>
+        </main>
+
+        <p class="footer-note">
+            เซฟไฟล์นี้ไว้ในมือถือ แล้วเปิดอ่านก่อนทำแบบฝึกหัดได้ทุกที่ <span>🏸</span>
+        </p>
+    </div>
+
+    <script>
+        // เปิด/ปิดการ์ด
+        document.querySelectorAll('.card-header').forEach(header => {
+            header.addEventListener('click', () => {
+                const card = header.parentElement;
+                const open = card.getAttribute('data-open') === 'true';
+                card.setAttribute('data-open', open ? 'false' : 'true');
+            });
+        });
+
+        // เลื่อนจากสารบัญ
+        document.querySelectorAll('.toc a').forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                const targetId = link.getAttribute('href').slice(1);
+                const target = document.getElementById(targetId);
+                if (target) {
+                    window.scrollTo({
+                        top: target.offsetTop - 10,
+                        behavior: 'smooth'
+                    });
+                    // เปิดการ์ดอัตโนมัติ
+                    target.setAttribute('data-open', 'true');
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>
